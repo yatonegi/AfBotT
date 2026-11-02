@@ -1,8 +1,24 @@
-import os
+from pyrogram import Client
+from info import API_ID, API_HASH, BOT_TOKEN
 
-API_ID = int(os.environ.get("API_ID", "1234567"))
-API_HASH = os.environ.get("API_HASH", "your_api_hash")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "your_bot_token")
+class Bot(Client):
+    def __init__(self):
+        super().__init__(
+            name="LucyBot",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=BOT_TOKEN,
+            plugins={"root": "plugins"}
+        )
 
-# Start Photo URL
-START_IMG = os.environ.get("START_IMG", "https://graph.org/file/your_image.jpg")
+    async def start(self):
+        await super().start()
+        print("Bot Started Successfully!")
+
+    async def stop(self, *args):
+        await super().stop()
+        print("Bot Stopped!")
+
+if __name__ == "__main__":
+    Bot().run()
+  
