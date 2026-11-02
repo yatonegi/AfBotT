@@ -11,4 +11,4 @@ ABOUT_TXT = """<blockquote><b>❍ ᴍʏ ɴᴀᴍᴇ : <a href="https://t.me/Lucy
 ❍ ʟᴀɴɢᴜᴀɢᴇ : <a href="https://www.python.org/">ᴘʏᴛʜᴏɴ</a>
 ❍ ᴅᴀᴛᴀʙᴀꜱᴇ : <a href="https://www.mongodb.com/">ᴍᴏɴɢᴏ ᴅʙ</a>
 ❍ ʜᴏꜱᴛᴇᴅ ᴏɴ : <a href="https://t.me/WADRAMA">ᴠᴘs</a>
-❍ ʙᴜɪʟᴅ ꜱᴛᴀᴛᴜꜱ : ᴠ3 [ᴀᴅᴠᴀɴᴄᴇ]</blockquote>
+❍ ʙᴜɪʟᴅ ꜱᴛᴀᴛᴜꜱ : ᴠ3 [ᴀᴅᴠᴀɴᴄᴇ]</blockquote>"""
