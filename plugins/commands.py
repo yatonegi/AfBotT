@@ -80,20 +80,15 @@ async def start_handler(client: Client, message: Message):
 
 
 # Callback Handler
-@Client.on_callback_query()
-async def callback_handler(client: Client, query: CallbackQuery):
-
-    if query.data == "about":
-
-        await query.message.edit_caption(
-            caption=Script.ABOUT_TXT
-        )
-
-        await api_request(client, "editMessageReplyMarkup", {
-            "chat_id": query.message.chat.id,
-            "message_id": query.message.id,
-            "reply_markup": about_buttons()
-        })
+@Client.on_message(filters.command("start") & filters.private)
+async def start_handler(client: Client, message: Message):
+    await api_request(client, "sendPhoto", {
+        "chat_id": message.chat.id,
+        "photo": START_IMG,
+        "caption": Script.START_TXT.format(message.from_user.mention),
+        "parse_mode": "HTML",
+        "reply_markup": start_buttons()
+    })
 
         await query.answer()
 
