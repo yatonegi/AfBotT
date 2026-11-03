@@ -70,18 +70,6 @@ def about_buttons():
 # Start Command
 @Client.on_message(filters.command("start") & filters.private)
 async def start_handler(client: Client, message: Message):
-
-    await api_request(client, "sendPhoto", {
-        "chat_id": message.chat.id,
-        "photo": START_IMG,
-        "caption": Script.START_TXT.format(message.from_user.mention),
-        "reply_markup": start_buttons()
-    })
-
-
-# Callback Handler
-@Client.on_message(filters.command("start") & filters.private)
-async def start_handler(client: Client, message: Message):
     await api_request(client, "sendPhoto", {
         "chat_id": message.chat.id,
         "photo": START_IMG,
@@ -90,24 +78,32 @@ async def start_handler(client: Client, message: Message):
         "reply_markup": start_buttons()
     })
 
+
+# Callback Handler
+@Client.on_callback_query()
+async def callback_handler(client: Client, query: CallbackQuery):
+
+    if query.data == "about":
+        await api_request(client, "editMessageCaption", {
+            "chat_id": query.message.chat.id,
+            "message_id": query.message.id,
+            "caption": Script.ABOUT_TXT,
+            "parse_mode": "HTML",
+            "reply_markup": about_buttons()
+        })
+
         await query.answer()
 
     elif query.data == "home":
-
-        await query.message.edit_caption(
-            caption=Script.START_TXT.format(query.from_user.mention)
-        )
-
-        await api_request(client, "editMessageReplyMarkup", {
+        await api_request(client, "editMessageCaption", {
             "chat_id": query.message.chat.id,
             "message_id": query.message.id,
+            "caption": Script.START_TXT.format(query.from_user.mention),
+            "parse_mode": "HTML",
             "reply_markup": start_buttons()
         })
 
         await query.answer()
 
     else:
-        await query.answer(
-            "Jald hi add hoga!",
-            show_alert=False
-        )
+        await query.answer("Jald hi add hoga!", show_alert=False)
