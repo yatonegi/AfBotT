@@ -40,8 +40,10 @@ def start_buttons():
                 button("🏡", callback_data="home", style="primary"),
                 button("🛡️", callback_data="shield", style="primary"),
                 button("💳", callback_data="about", style="primary"),
-                button("💸", callback_data="premium", style="success"),
-                button("🖥️", callback_data="stats", style="primary"),
+            ],
+            [
+                button("💸", callback_data="premium", style="primary"),
+                button("🖥️", call_back="stats", style="success"),
             ],
             [
                 button(
