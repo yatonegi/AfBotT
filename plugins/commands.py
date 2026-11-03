@@ -1,6 +1,9 @@
 import aiohttp
+import html
+
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
+
 from info import START_IMG
 from script import Script
 
@@ -19,9 +22,18 @@ async def api_request(client, method, data):
             return result["result"]
 
 
+# User Mention
+def make_mention(user):
+    name = html.escape(user.first_name)
+    return f'<a href="tg://user?id={user.id}">{name}</a>'
+
+
 # Styled Button Helper
 def button(text, callback_data=None, url=None, style=None):
-    data = {"text": text, "style": style}
+    data = {"text": text}
+
+    if style:
+        data["style"] = style
 
     if callback_data:
         data["callback_data"] = callback_data
@@ -70,10 +82,13 @@ def about_buttons():
 # Start Command
 @Client.on_message(filters.command("start") & filters.private)
 async def start_handler(client: Client, message: Message):
+
+    mention = make_mention(message.from_user)
+
     await api_request(client, "sendPhoto", {
         "chat_id": message.chat.id,
         "photo": START_IMG,
-        "caption": Script.START_TXT.format(message.from_user.mention),
+        "caption": Script.START_TXT.format(mention),
         "parse_mode": "HTML",
         "reply_markup": start_buttons()
     })
@@ -84,6 +99,7 @@ async def start_handler(client: Client, message: Message):
 async def callback_handler(client: Client, query: CallbackQuery):
 
     if query.data == "about":
+
         await api_request(client, "editMessageCaption", {
             "chat_id": query.message.chat.id,
             "message_id": query.message.id,
@@ -95,10 +111,13 @@ async def callback_handler(client: Client, query: CallbackQuery):
         await query.answer()
 
     elif query.data == "home":
+
+        mention = make_mention(query.from_user)
+
         await api_request(client, "editMessageCaption", {
             "chat_id": query.message.chat.id,
             "message_id": query.message.id,
-            "caption": Script.START_TXT.format(query.from_user.mention),
+            "caption": Script.START_TXT.format(mention),
             "parse_mode": "HTML",
             "reply_markup": start_buttons()
         })
@@ -106,4 +125,7 @@ async def callback_handler(client: Client, query: CallbackQuery):
         await query.answer()
 
     else:
-        await query.answer("Jald hi add hoga!", show_alert=False)
+        await query.answer(
+            "Jald hi add hoga!",
+            show_alert=False
+        )
