@@ -43,7 +43,7 @@ def start_buttons():
             ],
             [
                 button("💸", callback_data="premium", style="primary"),
-                button("🖥️", callback_back="stats", style="danger"),
+                button("🖥️", callback_data="stats", style="danger"),
             ],
             [
                 button(
