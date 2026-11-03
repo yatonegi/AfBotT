@@ -71,14 +71,10 @@ def about_buttons():
 @Client.on_message(filters.command("start") & filters.private)
 async def start_handler(client: Client, message: Message):
 
-    msg = await message.reply_photo(
-        photo=START_IMG,
-        caption=Script.START_TXT.format(message.from_user.mention)
-    )
-
-    await api_request(client, "editMessageReplyMarkup", {
-        "chat_id": msg.chat.id,
-        "message_id": msg.id,
+    await api_request(client, "sendPhoto", {
+        "chat_id": message.chat.id,
+        "photo": START_IMG,
+        "caption": Script.START_TXT.format(message.from_user.mention),
         "reply_markup": start_buttons()
     })
 
